@@ -1,0 +1,268 @@
+{
+    "manejo": {
+        "mappings": [
+            {
+                "source_column": "name",
+                "db_column": "name",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(255)"
+            },
+            {
+                "source_column": "elevation",
+                "db_column": "elevation",
+                "data_type_source": "float",
+                "data_type_db": "REAL"
+            },
+            {
+                "source_column": "date_og",
+                "db_column": "None",
+                "data_type_source": "datetime",
+                "data_type_db": "DATE"
+            },
+            {
+                "source_column": "tipo de acao",
+                "db_column": "tipo_acao",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(50)"
+            },
+            {
+                "source_column": "zona",
+                "db_column": "zona",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "especie",
+                "db_column": "especie",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(100)"
+            },
+            {
+                "source_column": "status remocao",
+                "db_column": "status_remocao",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(50)"
+            },
+            {
+                "source_column": "individuos",
+                "db_column": "individuos",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "plantulas removidas",
+                "db_column": "plantulas_rev",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "jovens removidos",
+                "db_column": "jovens_rev",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "adultos removidos",
+                "db_column": "adultos_rev",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "metodo de controle",
+                "db_column": "metodo_controle",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(50)"
+            },
+            {
+                "source_column": "controle mecanico",
+                "db_column": "mec_controle",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(50)"
+            },
+            {
+                "source_column": "quimico aplicado?",
+                "db_column": "None",
+                "data_type_source": "bool",
+                "data_type_db": "BOOLEAN"
+            },
+            {
+                "source_column": "principio ativo",
+                "db_column": "principio_ativo",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "quimico concentracao",
+                "db_column": "quimic_concentr",
+                "data_type_source": "float",
+                "data_type_db": "REAL"
+            },
+            {
+                "source_column": "quimico litros",
+                "db_column": "quimic_l",
+                "data_type_source": "float",
+                "data_type_db": "REAL"
+            },
+            {
+                "source_column": "inicio acao hh:mm:ss",
+                "db_column": "inicio",
+                "data_type_source": "time",
+                "data_type_db": "TIME"
+            },
+            {
+                "source_column": "fim acao hh:mm:ss",
+                "db_column": "fim",
+                "data_type_source": "time",
+                "data_type_db": "TIME"
+            },
+            {
+                "source_column": "num. manejadores",
+                "db_column": "num_manej",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "num equipe",
+                "db_column": "num_equipe",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "custo",
+                "db_column": "custo",
+                "data_type_source": "float",
+                "data_type_db": "REAL"
+            },
+            {
+                "source_column": "description",
+                "db_column": "description",
+                "data_type_source": "str",
+                "data_type_db": "TEXT"
+            },
+            {
+                "source_column": "comentario",
+                "db_column": "comentario",
+                "data_type_source": "str",
+                "data_type_db": "TEXT"
+            },
+            {
+                "source_column": "time",
+                "db_column": "time",
+                "data_type_source": "datetime",
+                "data_type_db": "TIME"
+            },
+            {
+                "source_column": "date",
+                "db_column": "date",
+                "data_type_source": "datetime",
+                "data_type_db": "DATE"
+            },
+            {
+                "source_column": "geometry",
+                "db_column": "geom",
+                "data_type_source": "geometry",
+                "data_type_db": "geometry"
+            }
+        ]
+    },
+    "ocorrencia": {
+        "mappings": [
+            {
+                "source_column": "name",
+                "db_column": "name",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(255)"
+            },
+            {
+                "source_column": "elevation",
+                "db_column": "elevation",
+                "data_type_source": "float",
+                "data_type_db": "REAL"
+            },
+            {
+                "source_column": "date_og",
+                "db_column": "None",
+                "data_type_source": "datetime",
+                "data_type_db": "DATE"
+            },
+            {
+                "source_column": "nome cientifico",
+                "db_column": "especie",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(100)"
+            },
+            {
+                "source_column": "nivel prioridade",
+                "db_column": "nivel_prioridade",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "risco da invasao",
+                "db_column": "risco_invasao",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "estagio invasao",
+                "db_column": "estagio_invasao",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "grau dispersao",
+                "db_column": "grau_dispersao",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(50)"
+            },
+            {
+                "source_column": "num_individuos",
+                "db_column": "individuos",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "zone",
+                "db_column": "zona",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "area degradada",
+                "db_column": "area_degradada",
+                "data_type_source": "int",
+                "data_type_db": "INTEGER"
+            },
+            {
+                "source_column": "description",
+                "db_column": "description",
+                "data_type_source": "str",
+                "data_type_db": "TEXT"
+            },
+            {
+                "source_column": "descricao",
+                "db_column": "comentario",
+                "data_type_source": "str",
+                "data_type_db": "TEXT"
+            },
+            {
+                "source_column": "time",
+                "db_column": "time",
+                "data_type_source": "datetime",
+                "data_type_db": "TIME"
+            },
+            {
+                "source_column": "date",
+                "db_column": "date",
+                "data_type_source": "datetime",
+                "data_type_db": "DATE"
+            },
+            {
+                "source_column": "geometry",
+                "db_column": "geom",
+                "data_type_source": "geometry",
+                "data_type_db": "geometry"
+            }
+        ]
+    }
+}

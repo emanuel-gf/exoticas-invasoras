@@ -12,3 +12,10 @@ wheels/
 *.kml
 *.log
 *.gpkg
+*.xlsx
+*.qgz
+complex_management/
+test_db/
+*.kml
+*/output/
+*.env
