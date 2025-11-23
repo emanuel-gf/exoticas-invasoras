@@ -171,7 +171,7 @@ class Preprocessor():
         
         return self.gdf
         
-    def get_gdf(self):
+    def get_gdf(self):  
         """Return the processed geodataframe."""
         return self.gdf
     
@@ -187,45 +187,79 @@ class Preprocessor():
         Correct on the gdf the name of the columns, which is retrieved by the map dict.
         Rename and drop unmatched columns.
         """
+        # Filter out mappings where db_column is None or "None"
+        valid_mappings = {k: v for k, v in self.map_gdf_db.items() 
+                            if v is not None and v != "None"}
+        
+        if self.verbose==1:
+            removed_cols = [k for k, v in self.map_gdf_db.items() 
+                                if v is None or v == "None"]
+            if removed_cols:
+                print(f"Columns mapped to None (will be removed): {removed_cols}")
 
         if self.verbose==1:
             print("-"*30)
             print('Preparing the gdf to match Database Table')
             print(f"Before Drop: {self.gdf.shape}") 
         
-        # Rename columns based on the mapping
-        self.gdf = self.gdf.rename(columns=self.map_gdf_db)
+        # Rename columns based on the valid mapping only
+        self.gdf = self.gdf.rename(columns=valid_mappings)
 
-        # Columns expected by the DB (values of the mapping dict) | True columns of the Database 
-        cols_db = set(self.map_gdf_db.values())
+        # Columns expected by the DB (values of the valid mapping dict)
+        cols_db = set(valid_mappings.values())
 
+        # CRITICAL: Always preserve the geometry column
+        cols_to_keep = cols_db.union({'geometry'})
+        
         # Identify extra columns not present in the DB table
-        cols_to_drop = self.gdf.columns.difference(cols_db)
+        cols_to_drop = self.gdf.columns.difference(cols_to_keep)
 
-        print(f"Columns that don't match the database: {list(cols_to_drop)}")
+        if self.verbose==1:
+            print(f"Columns that don't match the database: {list(cols_to_drop)}")
         
         # Drop unnecessary columns   
         self.gdf = self.gdf.drop(columns=list(cols_to_drop), axis='columns')
         
         if self.verbose==1:
             print(f"After Drop: {self.gdf.shape}")
+            print(f"Type: {type(self.gdf)}")
             print(self.gdf.info())
         
         return self.gdf  
 
 
-       
+def coltype_unified_schema(schema:dict, table_name:"str"):
+    """
+    Return dict mapping from GDF col -> gdf type
+    """
+    dict_out = dict(zip([var['source_column'] for var in schema[table_name]['mappings']],
+                        [var['data_type_source'] for var in schema[table_name]['mappings']]
+                        )
+                    )
+    return dict_out
+
+
+def map_gdf_db_unified_schema(schema:dict, table_name:"str"):
+    """
+    Return dict mapping from GDF col -> DB col
+    """
+    dict_out = dict(zip([var['source_column'] for var in schema[table_name]['mappings']],
+                        [var['db_column'] for var in schema[table_name]['mappings']]
+                        )
+                    )
+    return dict_out 
+
 def main(args)->None:
     print(args)
 
     #ADD LOGGER 
-    ## SCHEMAS
-    with open("schemas.json", "r", encoding="utf-8") as f:
-        schemas = json.load(f)
+    ## SCHEMAS UNIFIED
+    with open("schema.json", "r", encoding="utf-8") as f:
+        schema_unif = json.load(f)
         
-    ## MAP DICTS
-    with open("map_gdf_db.json", "r", encoding="utf-8") as f:
-        map_gdf_db = json.load(f)
+    # ## MAP DICTS
+    # with open("map_gdf_db.json", "r", encoding="utf-8") as f:
+    #     map_gdf_db = json.load(f)
 
     ## cleaning list - IMPROVE
     list_manejo = ['risco da invasao','estagio invasao','grau dispersao','zona']
@@ -258,18 +292,29 @@ def main(args)->None:
     # Process based on type
     match case_type:
         case "ocorrencia":
+            table_name = "ocorrencia"
             print("Processing as Ocorrencia...")
-            preprocessor = Preprocessor(gdf, schemas['ocorrencia'], list_ocorrencia,  map_gdf_db['ocorrencia'], verbose=1)
+            preprocessor = Preprocessor(gdf,
+                                        coltype_unified_schema(schema_unif, table_name),
+                                        list_ocorrencia,
+                                        map_gdf_db_unified_schema(schema_unif, table_name),
+                                        verbose=1)
             
             ## save the intermediate step gdf in case of further analysis
             gdf_processed = preprocessor.process()
+            
             
             ## Correct columns name
             gdf_out = preprocessor.prepare_gdf_db()
             
         case "manejo":
+            table_name = 'manejo'
             print("Processing as Manejo...")
-            preprocessor = Preprocessor(gdf, schemas['manejo'], list_manejo,  map_gdf_db['manejo'], verbose=1)
+            preprocessor = Preprocessor(gdf,
+                                        coltype_unified_schema(schema_unif, table_name),
+                                        list_manejo,
+                                        map_gdf_db_unified_schema(schema_unif, table_name),
+                                        verbose=1)
             
             ## save the intermediate step gdf in case of further analysis
             gdf_processed = preprocessor.process()
