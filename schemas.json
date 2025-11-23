@@ -1,0 +1,50 @@
+{
+  "manejo": {
+    "name": "str",
+    "elevation": "float",
+    "date_og": "datetime",
+    "tipo de acao": "str",
+    "zona": "int",
+    "especie": "str",
+    "status remocao": "str",
+
+    "individuos": "int",
+    "plantulas removidas": "int",
+    "jovens removidos": "int",
+    "adultos removidos":"int",
+    "adultos_rev":"int",
+    "metodo de controle": "str",
+    "controle mecanico": "str",
+    "quimico aplicado?": "bool",
+    "principio ativo":"int",
+    "quimico concentracao": "float",
+    "quimico litros": "float",
+
+    "inicio acao hh:mm:ss": "time",
+    "fim acao hh:mm:ss": "time",
+    "num. manejadores": "int",
+    "num equipe": "int",
+    "custo": "float",
+    "description":"str",
+    "comentario":"str"
+  },
+
+  "ocorrencia": {
+    "name": "str",
+    "elevation": "float",
+    "date_og": "datetime",
+
+    "nome cientifico": "str",
+    "nivel prioridade": "int",
+    "risco da invasao": "int",
+
+    "estagio invasao": "int",
+    "grau dipersao": "str",
+    "num_individuos": "int",
+
+    "zone": "int",
+    "area degradada": "int",
+    "description": "str",
+    "descricao":"str"
+  }
+}

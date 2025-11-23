@@ -1,0 +1,56 @@
+{
+    "ocorrencia" : {
+        "id":"id",
+        "name":"name",
+        "elevation":"elevation",
+        "date":"date",
+        "time":"time",
+        "nome cientifico":"especie",
+        "nivel prioridade":"nivel_prioridade",
+        "risco da invasao":"risco_invasao",
+        "estagio invasao":"estagio_invasao",
+        "grau dispersao":"grau_dispersao",
+        "num_individuos":"individuos",
+        "zone":"zona",
+        "area degradada":"area_degradada",
+        "description":"description",
+        "descricao":"comentario",
+        "geometry":"geom"
+},
+    "manejo" : {
+        "id": "id",
+        "name":"name",
+        "elevation": "elevation",
+        "date": "date",
+        "time": "time",
+
+        "tipo de acao": "tipo_acao",
+        "zona": "zona",
+        "especie": "especie",
+        "status remocao": "status_remocao",
+
+        "individuos": "individuos",
+        "plantulas removidas": "plantulas_rev",
+        "jovens removidos": "jovens_rev",
+        "adultos removidos": "adultos_rev",
+
+        "metodo de controle": "metodo_controle",
+        "controle mecanico": "mec_controle",
+
+        "principio ativo": "principio_ativo",
+        "quimico concentracao": "quimic_concentr",
+        "quimico litros": "quimic_l",
+
+        "inicio acao hh:mm:ss": "inicio",
+        "fim acao hh:mm:ss": "fim",
+
+        "num. manejadores": "num_manej",
+        "num equipe": "num_equipe",
+
+        "custo": "custo",
+
+        "geometry": "geom",
+        "description":"description",
+        "comentario":"comentario"
+    }
+}
