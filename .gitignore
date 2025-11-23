@@ -9,13 +9,12 @@ wheels/
 # Virtual environments
 .venv
 
-*.kml
 *.log
 *.gpkg
 *.xlsx
 *.qgz
 complex_management/
 test_db/
-*.kml
+data_campo/
 */output/
 *.env
