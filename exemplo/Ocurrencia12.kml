@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+  <Document>
+    <Schema id="schema0" name="schema0">
+      <SimpleField name="Description" type="string"/>
+      <SimpleField name="pdfmaps_photos" type="string">
+        <displayName>Photos</displayName>
+      </SimpleField>
+    </Schema>
+    <Schema id="schema1" name="schema1">
+      <SimpleField name="Description" type="string"/>
+      <SimpleField name="pdfmaps_photos" type="string">
+        <displayName>Photos</displayName>
+      </SimpleField>
+      <SimpleField name="Nome cientifico" type="string"/>
+      <SimpleField name="Nivel Prioridade" type="int"/>
+      <SimpleField name="Risco da Invasao" type="string"/>
+      <SimpleField name="Estagio Invasao" type="string"/>
+      <SimpleField name="Grau Dispersao" type="string"/>
+      <SimpleField name="Num_individuos" type="int"/>
+      <SimpleField name="Zone" type="string"/>
+      <SimpleField name="Metodo" type="string"/>
+      <SimpleField name="Descricao" type="string"/>
+      <SimpleField name="Area degradada" type="string"/>
+    </Schema>
+    <ExtendedData xmlns:avenza="http://www.avenza.com">
+            <avenza:picklist schemaUrl="schema1" avenza:field="Nome cientifico">
+          <avenza:picklistvalue><![CDATA[Heptapleurum Actinophyllum]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Pinus Sp]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Syzygium Cumini]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema1" avenza:field="Nivel Prioridade">
+          <avenza:picklistvalue><![CDATA[1]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[2]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[3]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[4]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[5]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema1" avenza:field="Risco da Invasao">
+          <avenza:picklistvalue><![CDATA[1 - Alto]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[2 - Moderado]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[3 - Baixo]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema1" avenza:field="Estagio Invasao">
+          <avenza:picklistvalue><![CDATA[0 - Contida]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[1 - Presente]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[2 - Estabelecida]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[3 - Invasora]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema1" avenza:field="Grau Dispersao">
+          <avenza:picklistvalue><![CDATA[A - Localizada]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[B - Pontual]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[C - Dispersa]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema1" avenza:field="Zone">
+          <avenza:picklistvalue><![CDATA[1 - Margem Brincas]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[2 - Papaquara Norte]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[3 - Papaquara Sul]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[4 - Rancho Ratones]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[5 - Rio Verissimo]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema1" avenza:field="Metodo">
+          <avenza:picklistvalue><![CDATA[mecanico]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[quimico]]></avenza:picklistvalue>
+      </avenza:picklist>
+    </ExtendedData>
+    <Folder>
+      <styleUrl>#style0</styleUrl>
+      <name>Ocorrencia</name>
+      <ExtendedData>
+        <SchemaData schemaUrl="#schema0"/>
+      </ExtendedData>
+      <Folder>
+        <styleUrl>#style0</styleUrl>
+        <name>Ocurrencia1 </name>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema1"/>
+        </ExtendedData>
+        <Placemark>
+          <name>Placemark 1</name>
+          <TimeStamp>
+            <when>2025-11-21T11:15:47+01:00</when>
+          </TimeStamp>
+          <styleUrl>#style1</styleUrl>
+          <ExtendedData>
+            <SchemaData schemaUrl="#schema1">
+              <SimpleData name="Nome cientifico">Pinus Sp</SimpleData>
+              <SimpleData name="Nivel Prioridade">3</SimpleData>
+              <SimpleData name="Risco da Invasao">2 - Moderado</SimpleData>
+              <SimpleData name="Estagio Invasao">3 - Invasora</SimpleData>
+              <SimpleData name="Grau Dispersao">B - Pontual</SimpleData>
+              <SimpleData name="Num_individuos">20</SimpleData>
+              <SimpleData name="Zone">3 - Papaquara Sul</SimpleData>
+              <SimpleData name="Metodo">mecanico</SimpleData>
+              <SimpleData name="Area degradada">nao</SimpleData>
+            </SchemaData>
+          </ExtendedData>
+          <Point>
+            <coordinates>
+              -48.5149393938563,-27.4682824763796,4.82176399230957
+            </coordinates>
+          </Point>
+        </Placemark>
+        <Placemark>
+          <name>Placemark 1 (1)</name>
+          <TimeStamp>
+            <when>2025-11-22T18:14:43+01:00</when>
+          </TimeStamp>
+          <styleUrl>#style1</styleUrl>
+          <ExtendedData>
+            <SchemaData schemaUrl="#schema1">
+              <SimpleData name="Description">Qlqr coisa aq</SimpleData>
+              <SimpleData name="Nome cientifico">Pinus Sp</SimpleData>
+              <SimpleData name="Nivel Prioridade">4</SimpleData>
+              <SimpleData name="Risco da Invasao">2 - Moderado</SimpleData>
+              <SimpleData name="Estagio Invasao">2 - Estabelecida</SimpleData>
+              <SimpleData name="Grau Dispersao">C - Dispersa</SimpleData>
+              <SimpleData name="Num_individuos">20</SimpleData>
+              <SimpleData name="Zone">4 - Rancho Ratones</SimpleData>
+              <SimpleData name="Descricao">mais qlqr coisa</SimpleData>
+              <SimpleData name="Area degradada">degradacao por invasao</SimpleData>
+            </SchemaData>
+          </ExtendedData>
+          <Point>
+            <coordinates>
+              -48.5034357048358,-27.4653591573711,3.62910580635071
+            </coordinates>
+          </Point>
+        </Placemark>
+        <Placemark>
+          <name>Placemark2</name>
+          <TimeStamp>
+            <when>2025-11-21T11:17:24+01:00</when>
+          </TimeStamp>
+          <styleUrl>#style1</styleUrl>
+          <ExtendedData>
+            <SchemaData schemaUrl="#schema1">
+              <SimpleData name="Nome cientifico">Heptapleurum Actinophyllum</SimpleData>
+              <SimpleData name="Nivel Prioridade">3</SimpleData>
+              <SimpleData name="Risco da Invasao">3 - Baixo</SimpleData>
+              <SimpleData name="Estagio Invasao">0 - Contida</SimpleData>
+              <SimpleData name="Grau Dispersao">A - Localizada</SimpleData>
+              <SimpleData name="Num_individuos">0</SimpleData>
+              <SimpleData name="Zone">4 - Rancho Ratones</SimpleData>
+              <SimpleData name="Metodo">quimico</SimpleData>
+              <SimpleData name="Area degradada">degradacao por invasao</SimpleData>
+            </SchemaData>
+          </ExtendedData>
+          <Point>
+            <coordinates>
+              -48.5110103524067,-27.4636967217222,4.19640493392944
+            </coordinates>
+          </Point>
+        </Placemark>
+      </Folder>
+    </Folder>
+    <Style id="style0">
+      <IconStyle>
+        <color>802f80ff</color>
+        <Icon>
+          <href>http://download.avenza.com/images/pdfmaps_icons/red_pin.png</href>
+        </Icon>
+        <hotSpot x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+      </IconStyle>
+      <LineStyle>
+        <color>ff2f80ff</color>
+        <width>4</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>802f80ff</color>
+      </PolyStyle>
+    </Style>
+    <Style id="style1">
+      <IconStyle>
+        <Icon>
+          <href>http://download.avenza.com/images/pdfmaps_icons/red_pin.png</href>
+        </Icon>
+        <hotSpot x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+      </IconStyle>
+    </Style>
+  </Document>
+</kml>
