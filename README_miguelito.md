@@ -1,6 +1,7 @@
 
 ## passo a passo
 
+capim roseta 
 - lembrar de fazer isso dentro do `TERMINAL`
 
 1. clonar o repositorio
