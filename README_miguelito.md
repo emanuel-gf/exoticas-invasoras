@@ -15,7 +15,11 @@ Caso o repositorio ja exista, e voce precise atualizar o repositorio com novas i
 ```bash
 git pull 
 ```
-
+1.2 Criar o ambient o ambiente virtual caso ele nao exista ainda 
+isso deve ser feito na raiz do projeto
+```bash
+uv venv 
+```
 2. Ativar o enviroment
 
 certifique-se que existe um .venv na sua pasta do projeto
