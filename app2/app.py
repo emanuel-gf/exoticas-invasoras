@@ -14,6 +14,8 @@ SCHEMA_FILE = Path("config/schema.json")
 KML_READER_SCRIPT = "kml_reader.py"
 PREPROCESS_SCRIPT = "preprocess.py"
 DB_IMPORTER_SCRIPT = "db_importer.py"
+##add generate csv file from raw kml 
+GENERATE_CSV_SCRIPT = "generate_csv.py" ## create this script 
 TEMP_KML_PATH = Path("./temp_uploaded.kml")
 
 logo_path = "imgs/icmbio_logo.webp" 
@@ -104,11 +106,11 @@ st.divider()
 #                                STEP 1: Selection (Now with Tabs)
 # ==============================================================================
 
-if current_step == "Step 1: Input & Info":
-    st.header("1. Input Configuration & Information")
+if current_step == "Kml Reader":
+    st.header("1. Read .kml file from Avenza")
     
     # --- Step 1 Tabs ---
-    tab1, tab2 = st.tabs(["**File Upload and Settings**", "**Additional Information**"])
+    tab1 = st.tabs(["**File Upload and Settings**"])
     
     with tab1:
         st.subheader("File & Type Selection")
@@ -198,19 +200,7 @@ if current_step == "Step 1: Input & Info":
 
         st.button("Read KML Columns", on_click=read_kml_columns, type="primary")
         
-    with tab2:
-        st.subheader("System Information")
-        st.markdown(
-            """
-            > **Epslium Loteris:** Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            > Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            > Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-            > ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-            > in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-            > Excepteur sint occaecat cupidatat non proident, sunt in culpa qui 
-            > officia deserunt mollit anim id est laborum.
-            """
-        )
+
 
 # ==============================================================================
 #                                STEP 2: Mapping & Run

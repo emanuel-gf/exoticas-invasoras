@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+  <Document>
+    <Schema id="schema0" name="schema0">
+      <SimpleField name="Description" type="string"/>
+      <SimpleField name="pdfmaps_photos" type="string">
+        <displayName>Photos</displayName>
+      </SimpleField>
+      <SimpleField name="Nome cientifico" type="string"/>
+      <SimpleField name="Area" type="string"/>
+      <SimpleField name="Estagio de vida" type="string"/>
+      <SimpleField name="Num_individuos" type="int"/>
+      <SimpleField name="Grau Dispersao" type="string"/>
+      <SimpleField name="Zona" type="string"/>
+      <SimpleField name="Estagio Invasao" type="string"/>
+      <SimpleField name="Risco da Invasao" type="string"/>
+      <SimpleField name="Nivel Prioridade" type="int"/>
+      <SimpleField name="Descricao" type="string"/>
+      <SimpleField name="Area degradada" type="string"/>
+    </Schema>
+    <ExtendedData xmlns:avenza="http://www.avenza.com">
+            <avenza:picklist schemaUrl="schema0" avenza:field="Nome cientifico">
+          <avenza:picklistvalue><![CDATA[Eucalyptus sp]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Pinus sp]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Syzygium cumini]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Heptapleurum actinophyllum]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema0" avenza:field="Area">
+          <avenza:picklistvalue><![CDATA[Rio Verissimo]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[SC 402 Margem Externa]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[SC 402 Margem Interna]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Papaquara Sul]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Margem Brincas]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Rancho Ratones]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Papaquara Norte]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema0" avenza:field="Estagio de vida">
+          <avenza:picklistvalue><![CDATA[Juvenil]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Adulto]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[Plantula]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema0" avenza:field="Grau Dispersao">
+          <avenza:picklistvalue><![CDATA[1 - Localizada]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[3 - Dispersa]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[2 - Pocos pontos]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema0" avenza:field="Zona">
+          <avenza:picklistvalue><![CDATA[3]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[6]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[2]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[1]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[5]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[4]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[7]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema0" avenza:field="Estagio Invasao">
+          <avenza:picklistvalue><![CDATA[1 - Presente]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[2 - Estabelecida]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[3 - Invasora]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[0 - Contida]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema0" avenza:field="Risco da Invasao">
+          <avenza:picklistvalue><![CDATA[3 - Baixo]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[2 - Moderado]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[1 - Alto]]></avenza:picklistvalue>
+      </avenza:picklist>
+            <avenza:picklist schemaUrl="schema0" avenza:field="Nivel Prioridade">
+          <avenza:picklistvalue><![CDATA[2]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[3]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[4]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[5]]></avenza:picklistvalue>
+          <avenza:picklistvalue><![CDATA[1]]></avenza:picklistvalue>
+      </avenza:picklist>
+    </ExtendedData>
+    <Folder>
+      <styleUrl>#style0</styleUrl>
+      <name>Ocorrencias_SC402_miguel</name>
+      <ExtendedData>
+        <SchemaData schemaUrl="#schema0"/>
+      </ExtendedData>
+      <Placemark>
+        <name>E</name>
+        <TimeStamp>
+          <when>2025-11-27T11:28:08-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style1</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Dracaena trifasciata</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Zona">7</SimpleData>
+            <SimpleData name="Estagio Invasao">1 - Presente</SimpleData>
+            <SimpleData name="Risco da Invasao">3 - Baixo</SimpleData>
+            <SimpleData name="Descricao">Espada de São Jorge</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4907648741154,-27.4693455053393,4.84132870273825
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Entrada clandestina</name>
+        <TimeStamp>
+          <when>2025-11-27T16:02:17-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style2</styleUrl>
+        <Point>
+          <coordinates>
+            -48.4942098772349,-27.4608729369491,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T11:20:03-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+            <SimpleData name="Zona">7</SimpleData>
+            <SimpleData name="Estagio Invasao">3 - Invasora</SimpleData>
+            <SimpleData name="Risco da Invasao">2 - Moderado</SimpleData>
+            <SimpleData name="Nivel Prioridade">0</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.490159,-27.471101,1.4484353600034
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T11:27:08-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4907832610833,-27.4693721141079,4.86667768534389
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T11:42:31-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4920425415039,-27.4661121368408,3.00130404906732
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T11:44:03-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4918859433543,-27.4664905761464,3
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T11:59:48-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4928100378358,-27.4640600743223,2.6608327912451
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:01:26-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style4</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4927481686517,-27.4642554536818,3.03407062076713
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:04:55-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4925166117789,-27.4648435926484,3.56306646576058
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:11:02-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4929972395123,-27.4635900580416,2.28572880565775
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:12:12-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+            <SimpleData name="Descricao">Indivíduo bastante seco</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4929994605377,-27.4635190465983,2.53337431024715
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:16:28-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.49312251569,-27.4631195136083,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:21:20-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4933151820658,-27.4627907503438,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:22:23-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4932832791589,-27.4626989582261,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:23:14-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4934058692347,-27.4626497892171,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:24:36-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4934491498013,-27.4624554576004,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:28:09-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4935971452228,-27.4621029255841,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:30:12-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4937621715813,-27.4616425510355,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:41:02-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945496989945,-27.4595049996078,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:42:06-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945561558111,-27.4594925847909,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:43:08-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945691281082,-27.4594581517299,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T12:44:06-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945819328952,-27.4594200012298,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T15:36:51-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945245324065,-27.4601052317337,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T15:37:43-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945173106283,-27.4600654659025,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T15:38:32-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945371540143,-27.4600269758182,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T15:39:28-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Description">Rebrota</SimpleData>
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+            <SimpleData name="Descricao">Rebrota</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945452958932,-27.4599921266902,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T15:40:35-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945536863349,-27.4599092560081,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T15:56:59-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4944028261754,-27.4603651520899,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J</name>
+        <TimeStamp>
+          <when>2025-11-27T16:06:30-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style4</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.494188676545,-27.4609784085565,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J </name>
+        <TimeStamp>
+          <when>2025-11-27T11:59:00-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.492865360591,-27.4639511792141,2.46883921589996
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J </name>
+        <TimeStamp>
+          <when>2025-11-27T12:06:07-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4925353856496,-27.4648712695401,3.46342965549593
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J </name>
+        <TimeStamp>
+          <when>2025-11-27T16:01:41-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.494188676545,-27.4609784085565,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J (1)</name>
+        <TimeStamp>
+          <when>2025-11-27T11:26:24-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4908154157436,-27.4692976677775,4.96957997494538
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J!</name>
+        <TimeStamp>
+          <when>2025-11-27T11:48:35-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style5</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+            <SimpleData name="Descricao">Há um ninho de ave a ser identificada espécie. Não manejar!</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4915203041425,-27.467389904745,2.2855870945495
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J2</name>
+        <TimeStamp>
+          <when>2025-11-27T12:14:10-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">2</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.493111318632,-27.4633517744966,2.74619197128984
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J2</name>
+        <TimeStamp>
+          <when>2025-11-27T12:25:56-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">2</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4935353062491,-27.4622438427894,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J2</name>
+        <TimeStamp>
+          <when>2025-11-27T12:39:30-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">2</SimpleData>
+            <SimpleData name="Descricao">2 adultos grandes </SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4945346069772,-27.4595715442075,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J2</name>
+        <TimeStamp>
+          <when>2025-11-27T15:35:44-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">2</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4944940930391,-27.4601289552461,5.4642388858133
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J3</name>
+        <TimeStamp>
+          <when>2025-11-27T11:45:06-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">3</SimpleData>
+            <SimpleData name="Descricao">3 indivíduos destacados. Lado a lado na margem do rio.</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.491859029743,-27.4666035320542,3
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J3</name>
+        <TimeStamp>
+          <when>2025-11-27T12:31:47-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">3</SimpleData>
+            <SimpleData name="Descricao">3 indivíduos adultos. Contínuos em direção ao mangue.</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4938189652215,-27.4614955286075,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>J4</name>
+        <TimeStamp>
+          <when>2025-11-27T16:05:01-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Interna</SimpleData>
+            <SimpleData name="Estagio de vida">Juvenil</SimpleData>
+            <SimpleData name="Num_individuos">4</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4942057119802,-27.4608382332254,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Marcador de localização 1</name>
+        <TimeStamp>
+          <when>2025-11-27T11:38:54-03:00</when>
+        </TimeStamp>
+        <styleUrl>#style3</styleUrl>
+        <ExtendedData>
+          <SchemaData schemaUrl="#schema0">
+            <SimpleData name="Nome cientifico">Syzygium cumini</SimpleData>
+            <SimpleData name="Area">SC 402 Margem Externa</SimpleData>
+            <SimpleData name="Estagio de vida">Adulto</SimpleData>
+            <SimpleData name="Num_individuos">1</SimpleData>
+          </SchemaData>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -48.4920835470997,-27.4660415067715,3
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Style id="style0">
+      <IconStyle>
+        <color>802f80ff</color>
+        <Icon>
+          <href>http://download.avenza.com/images/pdfmaps_icons/red_pin.png</href>
+        </Icon>
+        <hotSpot x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+      </IconStyle>
+      <LineStyle>
+        <color>ff2f80ff</color>
+        <width>4</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>802f80ff</color>
+      </PolyStyle>
+    </Style>
+    <Style id="style1">
+      <IconStyle>
+        <Icon>
+          <href>http://download.avenza.com/images/pdfmaps_icons/gray_pin.png</href>
+        </Icon>
+        <hotSpot x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+      </IconStyle>
+    </Style>
+    <Style id="style2">
+      <IconStyle>
+        <Icon>
+          <href>http://download.avenza.com/images/pdfmaps_icons/red_pin_classic.png</href>
+        </Icon>
+        <hotSpot x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+      </IconStyle>
+    </Style>
+    <Style id="style3">
+      <IconStyle>
+        <Icon>
+          <href>http://download.avenza.com/images/pdfmaps_icons/pink_pin.png</href>
+        </Icon>
+        <hotSpot x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+      </IconStyle>
+    </Style>
+    <Style id="style4">
+      <IconStyle>
+        <Icon>
+          <href>http://download.avenza.com/images/pdfmaps_icons/red_pin.png</href>
+        </Icon>
+        <hotSpot x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+      </IconStyle>
+    </Style>
+    <Style id="style5">
+      <IconStyle>
+        <Icon>
+          <href>http://download.avenza.com/images/pdfmaps_icons/yellow_pin.png</href>
+        </Icon>
+        <hotSpot x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+      </IconStyle>
+    </Style>
+  </Document>
+</kml>
