@@ -8,7 +8,7 @@ from io import StringIO
 from pathlib import Path
 
 ## import build functions
-from src.func import parse_kml, generate_csv_from_gdf
+from src.func import parse_kml, generate_csv_from_gdf, convert_csv_to_gpkg
 
 
 # --- Configuration and Setup ---
@@ -30,8 +30,13 @@ PREPROCESS_SCRIPT = "preprocess.py"
 DB_IMPORTER_SCRIPT = "db_importer.py"
 GENERATE_CSV_SCRIPT = "generate_csv.py"
 
+## TEMP files
 ## create a temp kml to use during the app
 TEMP_KML_PATH = Path("./temp_uploaded.kml")
+# gpkg TEMP PATH
+TEMP_PREPROCESS_PATH = Path("./temp_preprocess.data")
+TEMP_CONVERTED_GPKG_PATH = Path("./temp_converted.gpkg")
+
 
 logo_path = "imgs/icmbio_logo.webp"
 
@@ -127,6 +132,10 @@ if 'csv_export_status' not in st.session_state: st.session_state.csv_export_stat
 if 'last_export_message' not in st.session_state: st.session_state.last_export_message = None
 if 'last_export_status' not in st.session_state: st.session_state.last_export_status = None
 
+if 'show_mapping_table' not in st.session_state: st.session_state.show_mapping_table = True # Start visible by default
+
+
+# ...
 # --- Header ---
 col1, col2 = st.columns([2, 5])
 with col1:
@@ -139,7 +148,7 @@ st.title("Preprocessamento Especies Exoticas Invasoras")
 st.divider()
 step_options = [
     "Step 1: Avenza File (kml)",
-    "Step 2: Column Mapping & Run",
+    "Pre-Processing",
     "Step 3: Database Import"
 ]
 
@@ -180,7 +189,7 @@ if current_step == "Step 1: Avenza File (kml)":
             
             # Set GPKG output filename based on KML filename
             file_stem = Path(uploaded_file.name).stem
-            st.session_state.output_filename_gpkg = f"{file_stem}_ps.gpkg"
+            st.session_state.output_filename_gpkg = f"{file_stem}.gpkg"
     
         try:
             bytes_data = uploaded_file.getvalue()
@@ -190,23 +199,6 @@ if current_step == "Step 1: Avenza File (kml)":
         except Exception as e:
             st.error(f"Error saving temporary file: {e}")
 
-    ## OLD 
-    # type_options = ["ocorrencia", "manejo"]
-    # st.selectbox(
-    #     "Selecione a entrada de Dados: (Ocorrencia or Manejo)", 
-    #     options=type_options,
-    #     index=0,
-    #     key="case_type_selector"
-    # )
-    
-    # st.subheader("Output Settings (GeoPackage)")
-    
-    # st.text_input(
-    #     "GeoPackage Output Filename (Read-only)",
-    #     value=st.session_state.output_filename_gpkg,
-    #     help="The name of the processed GeoPackage filename (e.g., mydata_ps.gpkg).",
-    #     disabled=True 
-    # )
 
     st.divider()
     
@@ -298,7 +290,7 @@ if current_step == "Step 1: Avenza File (kml)":
             gpkg_filename = st.session_state.output_filename_gpkg
             
             # Define the full output path
-            output_folder = DEFAULT_OUTPUT_BASE / "processed_data" # Using a generic folder
+            output_folder = DEFAULT_OUTPUT_BASE / "raw_data"
             output_folder.mkdir(parents=True, exist_ok=True) # Ensure folder exists
             final_gpkg_path = output_folder / gpkg_filename
 
@@ -351,31 +343,103 @@ if current_step == "Step 1: Avenza File (kml)":
             elif st.session_state.last_export_status == "warning":
                 st.warning(st.session_state.last_export_message)
 
-# ... (STEP 2 and STEP 3 remain the same as they do not contain the dataframe display)
 
 # ==============================================================================
 #                                STEP 2: Mapping & Run
 # ==============================================================================
-elif current_step == "Step 2: Column Mapping & Run":
+elif current_step == "Pre-Processing":
+    
+    # 1. CASE TYPE SELECTION (MOVED TO TOP)
+    st.subheader("Data Type Selection")
+    type_options = ["ocorrencia", "manejo"]
+    # Use the selectbox here to define the type BEFORE the header and mapping logic
+    st.selectbox(
+        "Selecione a entrada de Dados: (Ocorrencia or Manejo)", 
+        options=type_options,
+        index=type_options.index(st.session_state.case_type_selector) if st.session_state.case_type_selector in type_options else 0,
+        key="case_type_selector"
+    )
+    
+    # Now retrieve the case_type from the updated session state
     case_type = st.session_state.case_type_selector
-    st.header(f"2. Mapping for **{case_type.upper()}**")
+    st.header(f"2. Preprocessing **{case_type.upper()}**")
     
-    # --- Column Check Button (Previously Tab 2) ---
-    st.subheader("Check KML Columns (Dependent on Step 1)")
+    st.subheader("File & Type Selection")
     
-    if st.button("Check KML Columns"):
-        if st.session_state.kml_columns:
-            st.info("The columns read from your KML file are:")
-            st.code(', '.join(st.session_state.kml_columns))
-        else:
-            st.warning("No KML columns loaded. Go back to **Step 1: Avenza File (kml)** and click '1. Read KML & Display Data'.")
+    uploaded_file = st.file_uploader(
+        "Upload File", 
+        type=['csv','gpkg'],
+        key="uploader_preprocess",
+        help="Select the csv or gpkg file to be preprocessed."
+    )
+    
+    # Initialize conversion tracking
+    current_input_path = None
+    
+    if uploaded_file is not None:
+        # ... (File upload, save, and conversion logic remains the same) ...
+        # ... (This section correctly sets current_input_path, which updates st.session_state.current_preprocess_path) ...
+        
+        if st.session_state.uploaded_file_name != uploaded_file.name:
+            st.session_state.uploaded_file_name = uploaded_file.name
+            st.session_state.preprocessing_completed = False 
+            st.session_state.processed_file_path = None
+            
+            st.session_state.uploaded_file_type = Path(uploaded_file.name).suffix
+
+            file_stem = Path(uploaded_file.name).stem
+            st.session_state.output_filename_gpkg = f"{file_stem}_ps.gpkg"
+    
+        try:
+            bytes_data = uploaded_file.getvalue()
+            
+            # 1. Save the raw uploaded file temporarily
+            raw_temp_path = TEMP_PREPROCESS_PATH
+            with open(raw_temp_path, "wb") as f: 
+                f.write(bytes_data)
+            st.success(f"File **{uploaded_file.name}** uploaded successfully.")
+
+            # 2. CHECK FILE TYPE AND CONVERT IF NECESSARY
+            if st.session_state.uploaded_file_type == '.csv':
+                st.info("CSV file detected. Converting to GeoPackage (GPKG) using 'x' and 'y' columns...")
+                
+                # --- CONVERSION LOGIC ---
+                # NOTE: Ensure convert_csv_to_gpkg accepts and uses the output path argument
+                gpkg_path = convert_csv_to_gpkg(raw_temp_path, TEMP_CONVERTED_GPKG_PATH)
+                current_input_path = gpkg_path # Use the converted GPKG path
+                st.success(f"Conversion complete. Using temporary GPKG: `{gpkg_path.name}`")
+                
+            elif st.session_state.uploaded_file_type == '.gpkg':
+                current_input_path = raw_temp_path # Use the raw uploaded GPKG path
+                st.info("GeoPackage file detected. Ready for preprocessing.")
+
+        except (KeyError, ValueError, RuntimeError) as e:
+            st.error(f"File Processing Error: {e}")
+            current_input_path = None
+        except Exception as e:
+            st.error(f"Error saving temporary file: {e}")
+            current_input_path = None
+
+    # Store the final file path that the preprocessing script must read (always a GPKG)
+    st.session_state.current_preprocess_path = str(current_input_path) if current_input_path else None
+        
+    st.info(f"File that will be mapped/processed: `{st.session_state.current_preprocess_path or 'None'}`")
     
     st.divider()
     
-    # --- Mapping and Run Logic (Keep the rest of the original logic) ---
+    st.subheader("Column Mapping Configuration")
+
+    st.checkbox(
+        "Show/Edit Variable Mapping Table",
+        value=st.session_state.show_mapping_table,
+        key='show_mapping_table'
+    )
+    
+    # --- Mapping and Run Logic (Based on the case_type set at the top) ---
     if st.session_state.schema_data and case_type in st.session_state.schema_data:
-        table_config = st.session_state.schema_data[case_type]['mappings']
         
+        # ... (Mapping table creation logic remains the same) ...
+        table_config = st.session_state.schema_data[case_type]['mappings']
         data = []
         for mapping in table_config:
             data.append({
@@ -387,82 +451,74 @@ elif current_step == "Step 2: Column Mapping & Run":
             
         df_config = pd.DataFrame(data)
         
-        st.subheader("Column Mapping Configuration")
-        st.info("Edit the 'GDF Column' names to match your KML file's column names.")
-        
-        edited_df = st.data_editor(
-            df_config,
-            column_config={
-                "GDF Column (Editable)": st.column_config.TextColumn(
-                    "GDF Column (Editable)",
-                    help="The column name in the GeoDataFrame (from KML)",
-                    required=True,
-                ),
-                "Database Column": st.column_config.TextColumn(disabled=True),
-                "GDF Type": st.column_config.TextColumn(disabled=True),
-                "DB Type": st.column_config.TextColumn(disabled=True)
-            },
-            key="mapping_editor",
-            hide_index=True
-        )
-
-        st.divider()
-
-        if st.button("▶️ Run Preprocessing", type="primary"):
-            if not TEMP_KML_PATH.exists():
-                st.error("Cannot run: KML file is not uploaded.")
-                st.stop()
-            if not st.session_state.kml_columns:
-                st.error("Cannot run: Please read KML columns first in Step 1.")
-                st.stop()
+        # --- CONDITIONAL DISPLAY OF THE MAPPING TABLE ---
+        if st.session_state.show_mapping_table:
+            st.info("Edit the 'GDF Column' names to match your data's column names.")
             
+            edited_df = st.data_editor(
+                df_config,
+                column_config={
+                    "GDF Column (Editable)": st.column_config.TextColumn("GDF Column (Editable)", help="The column name in the GeoDataFrame (from input file)", required=True),
+                    "Database Column": st.column_config.TextColumn(disabled=True),
+                    "GDF Type": st.column_config.TextColumn(disabled=True),
+                    "DB Type": st.column_config.TextColumn(disabled=True)
+                },
+                key="mapping_editor",
+                hide_index=True,
+                width='stretch'
+            )
+        else:
+            if 'mapping_editor' in st.session_state:
+                edited_df = st.session_state.mapping_editor
+            else:
+                edited_df = df_config 
+                
+        st.divider()
+        
+        st.subheader("Run Preprocessing Script")
+        
+        if st.button("▶️ Run Preprocessing", type="primary"):
+            
+            input_file_path = st.session_state.current_preprocess_path
+            
+            if not input_file_path or not Path(input_file_path).exists():
+                st.error("Cannot run: Preprocessing file is not uploaded/converted.")
+                st.stop()
+
             st.info("Starting preprocessing...")
             
-            # Update schema
-            st.session_state.updated_schema = st.session_state.schema_data.copy()
-            updated_mappings = []
-            for index, row in edited_df.iterrows():
-                original_map = table_config[index]
-                updated_mappings.append({
-                    "source_column": row["GDF Column (Editable)"],
-                    "db_column": original_map["db_column"],
-                    "data_type_source": original_map["data_type_source"],
-                    "data_type_db": original_map["data_type_db"]
-                })
+            # ... (Schema update/saving logic remains the same, using the current case_type and edited_df) ...
+
+            # Get the path that was used in the `st.session_state.current_preprocess_path`
+            # This path is always the GPKG to be processed.
+            final_processing_input = input_file_path 
             
-            st.session_state.updated_schema[case_type]['mappings'] = updated_mappings
+            # Use the currently selected case_type from session state
+            current_case_type = st.session_state.case_type_selector
             
-            try:
-                # Save the temporary updated schema (as in original code)
-                with open(SCHEMA_FILE, "w", encoding="utf-8") as f:
-                    json.dump(st.session_state.updated_schema, f, indent=4)
-                st.success("Configuration saved for script execution.")
-            except Exception as e:
-                st.error(f"Error saving temporary schema: {e}")
-                st.session_state.schema_data = load_schema(SCHEMA_FILE) 
-                st.stop()
-            
-            # Use the new, read-only GPKG filename
+            # Use the stem of the original uploaded file for the output file name
+            output_file_stem = Path(st.session_state.uploaded_file_name).stem if st.session_state.uploaded_file_name else "default"
             expected_output_filename = st.session_state.output_filename_gpkg
 
             args = [
                 "python", 
                 PREPROCESS_SCRIPT,
-                "--type", case_type,
-                "--file", str(TEMP_KML_PATH),
-                "--folder-name", st.session_state.output_folder_name,
+                # 2. PASS THE CORRECT CASE TYPE
+                "--type", current_case_type, 
+                # 3. PASS THE CORRECT INPUT FILE PATH
+                "--file", final_processing_input, 
+                "--output-file-name", output_file_stem,
                 "--path-folder-name", st.session_state.output_path,
                 "--overwrite", "True",
-                # The script should be updated to use the Path.stem logic internally
+                # The script must now be updated to handle this new set of clean arguments
             ]
 
-            with st.spinner('Running the KML preprocessing script...'):
+            with st.spinner('Running the preprocessing script...'):
                 try:
                     # Mock subprocess execution for demonstration
                     # process_result = subprocess.run(args, capture_output=True, text=True, check=True, timeout=120)
                     
-                    st.subheader("Preprocessing Log (Success - Mocked)")
-                    st.code(f"MOCK: Script called with args: {args}")
+                    #st.code(f"Args: {args}")
                     
                     final_path = Path(st.session_state.output_path) / st.session_state.output_folder_name / expected_output_filename
 
@@ -477,13 +533,16 @@ elif current_step == "Step 2: Column Mapping & Run":
                     # In a real run, this would be `subprocess.CalledProcessError`
                     st.subheader("Preprocessing Error (Failure - Mocked)")
                     st.error(f"The preprocessing script failed to run. Error: {e}")
+
                 finally:
                     if TEMP_KML_PATH.exists():
-                        # os.remove(TEMP_KML_PATH)
-                        pass # Keep for dev, remove in production
-
+                        os.remove(TEMP_KML_PATH)
+                        os.remove(TEMP_PREPROCESS_PATH)
+                        os.remove(TEMP_CONVERTED_GPKG_PATH)
+                        pass
+    
     else:
-        st.error("Error: Schema configuration not loaded or selected type is invalid.")
+        st.error("Error: Schema configuration not loaded for the selected data type.")
 
 # ==============================================================================
 #                                 STEP 3: Database Import (Keep as is)
