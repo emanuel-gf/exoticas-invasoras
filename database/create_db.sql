@@ -44,7 +44,7 @@ CREATE TABLE "manejo" (
 -- create table ocorrencia
 CREATE TABLE "ocorrencia" (
   "id" integer NOT NULL,
-  "name" varchar,
+  "name" varchar(255),
   "elevation" decimal,
   "date" date NOT NULL,
   "time" time NOT NULL,
@@ -55,10 +55,10 @@ CREATE TABLE "ocorrencia" (
   "grau_dispersao" varchar,
   "individuos" integer NOT NULL,
   "zona" integer,
-  "area_degradada" varchar,
+  "estagio_vida" varchar(50),
   "geom" geometry NOT NULL,
-  "comentario" varchar,
-  "description" varchar,
+  "comentario" varchar(255),
+  "description" varchar(255),
   "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
   "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
   PRIMARY KEY ("id")

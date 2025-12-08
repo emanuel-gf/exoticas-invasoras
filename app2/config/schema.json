@@ -228,22 +228,22 @@
                 "data_type_db": "INTEGER"
             },
             {
-                "source_column": "area degradada",
-                "db_column": "area_degradada",
-                "data_type_source": "int",
-                "data_type_db": "INTEGER"
+                "source_column": "estagio de vida",
+                "db_column": "estagio_vida",
+                "data_type_source": "str",
+                "data_type_db": "VARCHAR(50)"
             },
             {
                 "source_column": "description",
                 "db_column": "description",
                 "data_type_source": "str",
-                "data_type_db": "TEXT"
+                "data_type_db": "VARCHAR(255)"
             },
             {
                 "source_column": "descricao",
                 "db_column": "comentario",
                 "data_type_source": "str",
-                "data_type_db": "TEXT"
+                "data_type_db": "VARCHAR(255)"
             },
             {
                 "source_column": "time",

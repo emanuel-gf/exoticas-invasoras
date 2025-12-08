@@ -259,23 +259,11 @@ def create_logger(file_name: Path, logger_dir = Path("output/logger")):
     # Configure loguru logging to pipe output to sys.stdout
     logger.remove() # Remove default Loguru handler
     logger.add(
-        sys.stdout, # <-- Redirect log output to standard output
+        sys.stdout, 
         format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message}",
         level="INFO"
     )
-    
-    # Optional: File logging configuration (uncomment if needed)
-    # log_dir = logger_dir
-    # log_dir.mkdir(parents=True, exist_ok=True)
-    # log_filename = log_dir / f"{file_name.stem}-{datetime.now().strftime('%Y-%m-%d')}.log"
-    # logger.add(
-    #     log_filename,
-    #     format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message}",
-    #     level="INFO",
-    #     rotation="00:00",
-    #     retention="30 days",
-    #     compression="zip"
-    # )
+
     
 
 def get_pandas_dtype_map() -> Dict[str, str]:

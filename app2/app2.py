@@ -11,18 +11,10 @@ from pathlib import Path
 from src.func import parse_kml, generate_csv_from_gdf, convert_csv_to_gpkg
 
 
-# --- Configuration and Setup ---
-try:
-    from streamlit_extras.switch_page_button import switch_page
-    # REMOVED: from streamlit_extras.stylable_container import stylable_container
-    # REMOVED: from streamlit_extras.row import row
-except ImportError:
-    st.error("Please install 'streamlit-extras' module: `pip install streamlit-extras`")
-    def switch_page(*args, **kwargs): st.warning("Mocked switch_page")
-
 # --- Constants and Setup ---
 HOME_DIR = Path.home()  ## point to home directory 
 DEFAULT_OUTPUT_BASE = HOME_DIR / "Desktop" / "output"
+os.makedirs(DEFAULT_OUTPUT_BASE, exist_ok=True)
 
 SCHEMA_FILE = Path("config/schema.json")
 KML_READER_SCRIPT = "kml_reader.py"
@@ -32,12 +24,12 @@ GENERATE_CSV_SCRIPT = "generate_csv.py"
 
 ## TEMP files
 ## create a temp kml to use during the app
-TEMP_KML_PATH = Path("./temp_uploaded.kml")
-# gpkg TEMP PATH
-TEMP_PREPROCESS_PATH = Path("./temp_preprocess.data")
-TEMP_CONVERTED_GPKG_PATH = Path("./temp_converted.gpkg")
-
-
+DEFAULT_TEMP_DIR = DEFAULT_OUTPUT_BASE / "temp"
+DEFAULT_TEMP_DIR.mkdir(parents=True, exist_ok=True)
+TEMP_KML_PATH = DEFAULT_TEMP_DIR / Path("temp_uploaded.kml")
+TEMP_PREPROCESS_PATH = DEFAULT_TEMP_DIR / Path("temp_preprocess.data")
+TEMP_CONVERTED_GPKG_PATH = DEFAULT_TEMP_DIR / Path("temp_converted.gpkg")
+TEMP_GPKG_PATH_DB = DEFAULT_TEMP_DIR / Path("temp_uploaded.gpkg")
 logo_path = "imgs/icmbio_logo.webp"
 
 # Load schema.json
@@ -110,6 +102,7 @@ if 'schema_data' not in st.session_state: st.session_state.schema_data = schema_
 if 'kml_columns' not in st.session_state: st.session_state.kml_columns = None
 if 'kml_gdf_raw' not in st.session_state: st.session_state.kml_gdf_raw = None 
 if 'uploaded_file_name' not in st.session_state: st.session_state.uploaded_file_name = None
+if 'current_input_path' not in st.session_state: st.session_state.current_input_path = None
 if 'output_path' not in st.session_state: st.session_state.output_path = str(DEFAULT_OUTPUT_BASE)
 if 'output_folder_name' not in st.session_state: st.session_state.output_folder_name = "processed_data"
 if 'output_filename_base' not in st.session_state: st.session_state.output_filename_base = "default_ps.gpkg"
@@ -132,7 +125,7 @@ if 'csv_export_status' not in st.session_state: st.session_state.csv_export_stat
 if 'last_export_message' not in st.session_state: st.session_state.last_export_message = None
 if 'last_export_status' not in st.session_state: st.session_state.last_export_status = None
 
-if 'show_mapping_table' not in st.session_state: st.session_state.show_mapping_table = True # Start visible by default
+if 'show_mapping_table' not in st.session_state: st.session_state.show_mapping_table = False # Start visible by default
 
 
 # ...
@@ -149,7 +142,7 @@ st.divider()
 step_options = [
     "Step 1: Avenza File (kml)",
     "Pre-Processing",
-    "Step 3: Database Import"
+    "Database Import"
 ]
 
 st.radio(
@@ -373,57 +366,41 @@ elif current_step == "Pre-Processing":
         help="Select the csv or gpkg file to be preprocessed."
     )
     
-    # Initialize conversion tracking
-    current_input_path = None
-    
+    current_input_path = []
     if uploaded_file is not None:
-        # ... (File upload, save, and conversion logic remains the same) ...
-        # ... (This section correctly sets current_input_path, which updates st.session_state.current_preprocess_path) ...
-        
         if st.session_state.uploaded_file_name != uploaded_file.name:
             st.session_state.uploaded_file_name = uploaded_file.name
             st.session_state.preprocessing_completed = False 
             st.session_state.processed_file_path = None
             
             st.session_state.uploaded_file_type = Path(uploaded_file.name).suffix
-
-            file_stem = Path(uploaded_file.name).stem
-            st.session_state.output_filename_gpkg = f"{file_stem}_ps.gpkg"
-    
-        try:
-            bytes_data = uploaded_file.getvalue()
-            
-            # 1. Save the raw uploaded file temporarily
-            raw_temp_path = TEMP_PREPROCESS_PATH
-            with open(raw_temp_path, "wb") as f: 
-                f.write(bytes_data)
-            st.success(f"File **{uploaded_file.name}** uploaded successfully.")
-
-            # 2. CHECK FILE TYPE AND CONVERT IF NECESSARY
-            if st.session_state.uploaded_file_type == '.csv':
-                st.info("CSV file detected. Converting to GeoPackage (GPKG) using 'x' and 'y' columns...")
-                
-                # --- CONVERSION LOGIC ---
-                # NOTE: Ensure convert_csv_to_gpkg accepts and uses the output path argument
-                gpkg_path = convert_csv_to_gpkg(raw_temp_path, TEMP_CONVERTED_GPKG_PATH)
-                current_input_path = gpkg_path # Use the converted GPKG path
-                st.success(f"Conversion complete. Using temporary GPKG: `{gpkg_path.name}`")
-                
-            elif st.session_state.uploaded_file_type == '.gpkg':
-                current_input_path = raw_temp_path # Use the raw uploaded GPKG path
-                st.info("GeoPackage file detected. Ready for preprocessing.")
-
-        except (KeyError, ValueError, RuntimeError) as e:
-            st.error(f"File Processing Error: {e}")
-            current_input_path = None
-        except Exception as e:
-            st.error(f"Error saving temporary file: {e}")
-            current_input_path = None
-
-    # Store the final file path that the preprocessing script must read (always a GPKG)
-    st.session_state.current_preprocess_path = str(current_input_path) if current_input_path else None
         
-    st.info(f"File that will be mapped/processed: `{st.session_state.current_preprocess_path or 'None'}`")
+        ## check the file type and convert if necessary
+        match st.session_state.uploaded_file_type:
+            case '.csv':
+                st.info("CSV file detected. Will convert to GeoPackage (GPKG) using 'x' and 'y' columns.")
+                # convert 
+                converted_gpkg_path = convert_csv_to_gpkg(uploaded_file, TEMP_CONVERTED_GPKG_PATH)
+                st.session_state.current_input_path = converted_gpkg_path 
+                st.success(f"Conversion complete. Using temporary GPKG: `{st.session_state.current_input_path.name}`")
+            case '.gpkg':
+                st.info("GeoPackage file detected. Ready for preprocessing.")
+                output_file_name = DEFAULT_TEMP_DIR / uploaded_file.name
+                with open(output_file_name, "wb") as f:
+                    f.write(uploaded_file.getbuffer())
+                
+                # Now, create a Path object from the saved file's string path
+                st.session_state.current_input_path = output_file_name  
+                st.success(f"File saved. Using temporary GPKG: `{st.session_state.current_input_path.name}`")
+            case '.kml':
+                st.error("KML files are not supported in this step. Please upload a CSV or GPKG file.")
+                st.stop()
+            case _:
+                st.error("Unsupported file type. Please upload a CSV or GPKG file.")
+                st.stop()
+    
+
+    st.info(f"File that will be mapped/processed: `{st.session_state.current_input_path or 'None'}`")
     
     st.divider()
     
@@ -434,11 +411,18 @@ elif current_step == "Pre-Processing":
         value=st.session_state.show_mapping_table,
         key='show_mapping_table'
     )
+
+    ## Print the columns present at the dataset 
+    if (st.session_state.show_mapping_table== True) & (st.session_state.uploaded_file_name is not None):
+        def print_cols(path):
+            gdf = gpd.read_file(path)
+            return gdf.columns.tolist()
+        st.info(f"The columns presented at the dataframe are: {print_cols(st.session_state.current_input_path)}")
     
     # --- Mapping and Run Logic (Based on the case_type set at the top) ---
     if st.session_state.schema_data and case_type in st.session_state.schema_data:
         
-        # ... (Mapping table creation logic remains the same) ...
+        # load json based on case type
         table_config = st.session_state.schema_data[case_type]['mappings']
         data = []
         for mapping in table_config:
@@ -479,62 +463,68 @@ elif current_step == "Pre-Processing":
         
         if st.button("▶️ Run Preprocessing", type="primary"):
             
-            input_file_path = st.session_state.current_preprocess_path
-            
-            if not input_file_path or not Path(input_file_path).exists():
-                st.error("Cannot run: Preprocessing file is not uploaded/converted.")
+            if st.session_state.current_input_path is None:
+                st.error("Cannot run: No valid input file path found.")
                 st.stop()
 
             st.info("Starting preprocessing...")
-            
-            # ... (Schema update/saving logic remains the same, using the current case_type and edited_df) ...
-
-            # Get the path that was used in the `st.session_state.current_preprocess_path`
-            # This path is always the GPKG to be processed.
-            final_processing_input = input_file_path 
+            final_path = None
             
             # Use the currently selected case_type from session state
             current_case_type = st.session_state.case_type_selector
             
             # Use the stem of the original uploaded file for the output file name
-            output_file_stem = Path(st.session_state.uploaded_file_name).stem if st.session_state.uploaded_file_name else "default"
-            expected_output_filename = st.session_state.output_filename_gpkg
+            expected_output_filename = st.session_state.current_input_path.stem + "_ps.gpkg"
 
             args = [
                 "python", 
                 PREPROCESS_SCRIPT,
-                # 2. PASS THE CORRECT CASE TYPE
+                # PASS THE CORRECT CASE TYPE
                 "--type", current_case_type, 
-                # 3. PASS THE CORRECT INPUT FILE PATH
-                "--file", final_processing_input, 
-                "--output-file-name", output_file_stem,
+                # PASS THE CORRECT INPUT FILE PATH
+                "--file", st.session_state.current_input_path, 
+                "--output-file-name", expected_output_filename,
                 "--path-folder-name", st.session_state.output_path,
-                "--overwrite", "True",
-                # The script must now be updated to handle this new set of clean arguments
+                "--overwrite", "True"
             ]
 
             with st.spinner('Running the preprocessing script...'):
                 try:
-                    # Mock subprocess execution for demonstration
-                    # process_result = subprocess.run(args, capture_output=True, text=True, check=True, timeout=120)
+                    process_result = subprocess.run(args, capture_output=True, text=True, check=True, timeout=120)
+                    st.code(process_result.stdout)
                     
-                    #st.code(f"Args: {args}")
-                    
+                    # FINAL_PATH DEFINITION (ONLY ON SUCCESS)
                     final_path = Path(st.session_state.output_path) / st.session_state.output_folder_name / expected_output_filename
 
                     st.session_state.processed_file_path = str(final_path) 
                     st.session_state.preprocessing_completed = True
                     st.session_state.manual_import_file_path = None
                     
+                except subprocess.CalledProcessError as e:
+                    # Catch the specific non-zero exit error
+                    st.subheader("Preprocessing Error (Failed Script Execution)")
+                    st.error("The preprocessing script failed to execute correctly (non-zero exit status).")
+                    
+                    st.warning("Error Output (stderr) from script:")
+                    st.code(e.stderr or "No stderr captured.")
+                    
+                    st.info("Standard Output (stdout) from script:")
+                    st.code(e.stdout or "No stdout captured.")
+
+                except subprocess.TimeoutExpired:
+                    st.error("The preprocessing script timed out.")
+
+                except FileNotFoundError:
+                    st.error(f"Error: `{PREPROCESS_SCRIPT}` not found. Check your file paths.")
+
+                except Exception as e:
+                    # Catch all other unexpected errors
+                    st.subheader("Unexpected Error")
+                    st.error(f"An unexpected error occurred: {e}")
+                
+                finally:
                     st.success(f" **Bora mané nao mosca!** File saved to: `{final_path}`")
                     st.balloons()
-                    
-                except Exception as e:
-                    # In a real run, this would be `subprocess.CalledProcessError`
-                    st.subheader("Preprocessing Error (Failure - Mocked)")
-                    st.error(f"The preprocessing script failed to run. Error: {e}")
-
-                finally:
                     if TEMP_KML_PATH.exists():
                         os.remove(TEMP_KML_PATH)
                         os.remove(TEMP_PREPROCESS_PATH)
@@ -545,68 +535,98 @@ elif current_step == "Pre-Processing":
         st.error("Error: Schema configuration not loaded for the selected data type.")
 
 # ==============================================================================
-#                                 STEP 3: Database Import (Keep as is)
+#                                 Database Import (Keep as is)
 # ==============================================================================
-elif current_step == "Step 3: Database Import":
-    # --- Keep the entire original logic for Step 3 ---
+elif current_step == "Database Import":
     def run_db_import(file_path, case_type, host, port, database, user, password):
-        # ... (Original run_db_import function logic)
-        st.warning("MOCK: DB import skipped. This function needs the DB_IMPORTER_SCRIPT to run.")
-        st.success(f"MOCK: Data for **{case_type.upper()}** successfully imported for file: {file_path}")
-        return True # Mock success
+        os.environ['host'] = host
+        os.environ['port'] = str(port)
+        os.environ['database'] = database
+        os.environ['user'] = user
+        os.environ['password'] = password
+        
+        args = [
+            "python", 
+            DB_IMPORTER_SCRIPT,
+            "--type", case_type,
+            "--file_name", str(file_path)
+        ]
+        
+        try:
+            process_result = subprocess.run(
+                args,
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=300
+            )
+            st.subheader("Database Import Log (Success)")
+            st.code(process_result.stdout)
+            st.success(f"✅ Data for **{case_type.upper()}** successfully imported into the database!")
+            return True
 
-    st.header("3. Import into PostgreSQL/PostGIS")
-    st.info("Enter your database connection details below to push the processed GeoPackage.")
+        except subprocess.CalledProcessError as e:
+            st.subheader("Database Import Error (Failure)")
+            st.error("The database import script failed to run.")
+            st.code(e.stderr)
+            if e.stdout:
+                st.code(e.stdout)
+            return False
+        except subprocess.TimeoutExpired:
+            st.error("The database import script timed out.")
+            return False
+        except FileNotFoundError:
+            st.error(f"Error: `{DB_IMPORTER_SCRIPT}` not found. Check your file paths.")
+            return False
+        finally:
+            for key in ['host', 'port', 'database', 'user', 'password']:
+                if key in os.environ:
+                    del os.environ[key]
+
+    st.header(" Import into PostgreSQL/PostGIS")
 
     # --- File Selection Logic ---
-    st.subheader("File Selection (GeoPackage)")
-
-    use_preprocessed = st.checkbox(
-        "Use GeoPackage from Step 2 Preprocessing",
-        value=st.session_state.preprocessing_completed and st.session_state.processed_file_path is not None,
-        disabled=not st.session_state.preprocessing_completed
-    )
+    st.subheader("File Selection")
 
     import_file_path = None
     case_type = st.session_state.case_type_selector
 
-    if use_preprocessed and st.session_state.processed_file_path:
-        import_file_path = Path(st.session_state.processed_file_path)
-        st.success(f"Using preprocessed file: `{import_file_path}`")
-    else:
-        st.warning("Select or upload a GeoPackage (.gpkg) file to import.")
+
+    st.info("Select or upload a GeoPackage (.gpkg) file to import.")
         
-        uploaded_gpkg_file = st.file_uploader(
+    uploaded_gpkg_file = st.file_uploader(
             "Upload GeoPackage (.gpkg) File", 
             type=['gpkg'],
             key="gpkg_uploader",
             help="Select the GPKG file for direct import to the database."
         )
 
-        if uploaded_gpkg_file is not None:
-            temp_gpkg_path = Path("./temp_uploaded.gpkg")
-            try:
-                bytes_data = uploaded_gpkg_file.getvalue()
-                with open(temp_gpkg_path, "wb") as f:
-                    f.write(bytes_data)
-                st.session_state.manual_import_file_path = str(temp_gpkg_path)
-                import_file_path = temp_gpkg_path
-                st.success(f"File **{uploaded_gpkg_file.name}** uploaded successfully.")
-            except Exception as e:
-                st.error(f"Error saving temporary GPKG file: {e}")
-                st.session_state.manual_import_file_path = None
-        elif st.session_state.manual_import_file_path:
-             import_file_path = Path(st.session_state.manual_import_file_path)
-             st.info(f"Using previously uploaded file: `{import_file_path.name}`")
-        
-        case_type_options = ["ocorrencia", "manejo"]
-        case_type = st.selectbox(
-            "Selecione em qual tabela será importado os arquivo.", 
-            options=case_type_options,
-            index=case_type_options.index(st.session_state.case_type_selector),
-            key="import_case_type_selector",
-            help="The table structure in the database depends on this type."
-        )
+    if uploaded_gpkg_file is not None:
+        try:
+            bytes_data = uploaded_gpkg_file.getvalue()
+            output_file_name = DEFAULT_TEMP_DIR / uploaded_gpkg_file.name
+            with open(output_file_name, "wb") as f:
+                f.write(bytes_data)
+            st.session_state.manual_import_file_path = str(output_file_name)
+            import_file_path = output_file_name
+            st.success(f"File **{uploaded_gpkg_file.name}** uploaded successfully.")
+        except Exception as e:
+            st.error(f"Error saving temporary GPKG file: {e}")
+            st.session_state.manual_import_file_path = None
+    elif st.session_state.manual_import_file_path:
+            import_file_path = Path(st.session_state.manual_import_file_path)
+            st.info(f"Using previously uploaded file: `{import_file_path.name}`")
+    
+    st.divider()
+    st.subheader("Select the Table to be imported")
+    case_type_options = ["ocorrencia", "manejo"]
+    case_type = st.selectbox(
+        "Selecione em qual tabela será importado os arquivo.", 
+        options=case_type_options,
+        index=case_type_options.index(st.session_state.case_type_selector),
+        key="import_case_type_selector",
+        help="The table structure in the database depends on this type."
+    )
 
 
     st.markdown("---")
@@ -618,7 +638,8 @@ elif current_step == "Step 3: Database Import":
         st.stop()
         
     st.subheader("Database Credentials")
-    
+    st.info("Enter your database connection details below to push the processed GeoPackage.")
+
     col_host, col_port = st.columns([3, 1])
     with col_host:
         st.text_input("Host", key="db_host")

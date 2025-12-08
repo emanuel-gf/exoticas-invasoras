@@ -5,6 +5,7 @@ from shapely.geometry import Point
 import geopandas as gpd 
 from pathlib import Path
 import os 
+import pandas as pd
 
 def parse_kml(kml_path)-> None:
     """
@@ -98,6 +99,44 @@ def generate_csv_from_gdf(gdf, DEFAULT_OUTPUT_BASE, target_file_name, target_fol
     return output_path 
 
 
+def convert_csv_to_gpkg(csv_path,TEMP_CONVERTED_GPKG_PATH):
+    """
+    Reads a CSV file, transforms it into a GeoDataFrame using 'x' and 'y' columns,
+    and saves the result to a temporary GPKG file.
+
+    Returns:
+        Path to the temporary GPKG file.
+
+    Args:
+        csv_path (str or Path): Path to the input CSV file.
+        TEMP_CONVERTED_GPKG_PATH = (str or Path): Path where temporary GPKG file will be saved.
+    """
+    try:
+        df = pd.read_csv(csv_path)
+    except Exception as e:
+        raise ValueError(f"Error reading CSV file: {e}")
+
+    # --- Check for required 'x' and 'y' columns ---
+    if 'x' not in df.columns or 'y' not in df.columns:
+        raise KeyError("CSV file must contain 'x' and 'y' columns for conversion to GeoPackage.")
+
+    # --- Conversion to GeoDataFrame ---
+    try:
+        gdf = gpd.GeoDataFrame(
+            df,
+            geometry=gpd.points_from_xy(df.x, df.y),
+            crs='EPSG:4326'
+        )
+    except Exception as e:
+        raise RuntimeError(f"Error creating geometry from x/y columns: {e}")
+
+    # --- Save to Temporary GPKG ---
+    try:
+        gdf.to_file(TEMP_CONVERTED_GPKG_PATH, driver='GPKG', encoding="utf-8")
+        return Path(TEMP_CONVERTED_GPKG_PATH)
+    except Exception as e:
+        raise RuntimeError(f"Error saving converted GeoDataFrame to GPKG: {e}")
+    
 
 
 

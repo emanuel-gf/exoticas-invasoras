@@ -14,84 +14,12 @@ from lxml import etree
 from shapely.geometry import Point
 
 
-def create_logger(file_name: Path, logger_dir = Path("output/logger")):
-    # Configure loguru logging
-    log_dir = logger_dir
-    log_dir.mkdir(parents=True, exist_ok=True)
-
-    # Generate log filename with current date
-    log_filename = log_dir / f"Preprocess-{file_name.stem}-{datetime.now().strftime('%Y-%m-%d')}.log"
+def create_logger():
+    # Configure loguru logging to pipe output to sys.stdout
+    logger.remove() # Remove default Loguru handler
     logger.add(
-        log_filename,
-        format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message}",
-        level="INFO",
-        rotation="00:00",  # New file at midnight
-        retention="30 days",  # Keep logs for 30 days
-        compression="zip"  # Compress old logs
+        sys.stdout
     )
-
-def parse_kml(kml_file):
-    """
-    Process kml file into a geodataframe.
-    Appends all metadata inside the Placemark schema1. 
-    
-    Returns:
-        GeoDataFrame at 4326.
-    
-    args:
-        kml_file: Path
-            Path of the file
-    """
-    logger.info(f"Starting KML parsing for file: {kml_file}")
-    
-    try:
-        # Parse the KML file
-        tree = etree.parse(kml_file)
-        root = tree.getroot()
-        logger.debug("KML file parsed successfully")
-
-        # Define namespaces
-        ns = {'kml': 'http://www.opengis.net/kml/2.2'}
-
-        # Extract placemarks with schema1 data
-        data = []
-        for placemark in root.findall('.//kml:Placemark', ns):
-            schema_data = placemark.find('.//kml:SchemaData[@schemaUrl="#schema1"]', ns)
-            if schema_data is not None:
-                # Get coordinates
-                coords_text = placemark.find('.//kml:coordinates', ns).text.strip()
-                lon, lat, alt = map(float, coords_text.split(','))
-                
-                # Get name
-                name = placemark.find('.//kml:name', ns).text
-                
-                # Get timestamp if available
-                timestamp_elem = placemark.find('.//kml:when', ns)
-                timestamp = timestamp_elem.text if timestamp_elem is not None else None
-                
-                # Extract all SimpleData fields
-                record = {'name': name,
-                        'geometry': Point(lon, lat),
-                        'elevation':alt,
-                        "date_og":timestamp}
-                for simple_data in schema_data.findall('.//kml:SimpleData', ns):
-                    field_name = simple_data.get('name')
-                    field_value = simple_data.text
-                    record[field_name] = field_value
-                
-                data.append(record)
-
-        # Create GeoDataFrame
-        gdf = gpd.GeoDataFrame(data, crs='EPSG:4326').rename(str.lower, axis='columns')
-        logger.success(f"KML parsing completed: {len(gdf)} records extracted with {len(gdf.columns)} columns")
-        
-        return gdf
-    
-    except Exception as e:
-        logger.error(f"Failed to parse KML file: {e}")
-        raise
-
-
 class Preprocessor():
     """
     Class to preprocess KML data with schema application and text cleaning.
@@ -266,21 +194,36 @@ class Preprocessor():
             logger.info(f"Columns mapped to None (will be removed): {removed_cols}")
         
         # Rename columns based on the valid mapping only
-        self.gdf = self.gdf.rename(columns=valid_mappings)
+        rename_dict = {
+            src: db for src, db in valid_mappings.items() 
+            if src in self.gdf.columns
+        }
+        self.gdf = self.gdf.rename(columns=rename_dict)
         logger.debug(f"Renamed columns according to mapping")
 
         # Columns expected by the DB (values of the valid mapping dict)
         cols_db = set(valid_mappings.values())
 
+        # 1. Ensure all DB-required columns exist
+        missing_db_cols = cols_db.difference(self.gdf.columns)
+        if missing_db_cols:
+            logger.warning(f"Creating missing DB columns: {list(missing_db_cols)}")
+            for col in missing_db_cols:
+                # Create the missing column and fill with None (or NaN)
+                self.gdf[col] = None
+
         # CRITICAL: Always preserve the geometry column
         cols_to_keep = cols_db.union({'geometry'})
         
         # Identify extra columns not present in the DB table
+        # We must drop columns that were *not* successfully renamed and are not in the DB's target set.
+        # This includes the original source columns that did not have a matching DB column.
         cols_to_drop = self.gdf.columns.difference(cols_to_keep)
 
+        # 2. Drop columns that are not in the final DB set
         if len(cols_to_drop) > 0:
-            logger.info(f"Dropping {len(cols_to_drop)} columns that don't match database: {list(cols_to_drop)}")
-        
+            logger.warning(f"Dropping {len(cols_to_drop)} extra columns: {list(cols_to_drop)}")
+
         # Drop unnecessary columns   
         self.gdf = self.gdf.drop(columns=list(cols_to_drop), axis='columns')
         
@@ -318,11 +261,12 @@ def main(args)->None:
     overwrite = args.overwrite
     file_name = Path(args.file)
     case_type = str(args.type).lower()
+    output_file_name = args.output_file_name 
     
-    create_logger(file_name)
+    create_logger()
     logger.info("="*70)
     logger.info(f"Arguments: {vars(args)}")
-    logger.info("STARTING KML PREPROCESSING APPLICATION")
+    logger.info("STARTING PREPROCESSING")
     logger.info("="*70)
     
     try:
@@ -343,26 +287,17 @@ def main(args)->None:
         list_ocorrencia = ['zone','risco da invasao','estagio invasao','grau dispersao']
         
 
-
         # Setup output paths
         folder_path = Path(args.path_folder_name)
         folder_name = args.folder_name
         output_dir = folder_path / folder_name
+        output_file = output_dir / output_file_name
+
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Output directory created/verified: {output_file.parent}")
         
-        output_dir.mkdir(parents=True, exist_ok=True)
-        logger.info(f"Output directory created/verified: {output_dir}")
-        
-        # Check if file is KML
-        if file_name.suffix != ".kml":
-            logger.error(f"Invalid file format. Expected .kml, got {file_name.suffix}")
-            raise ValueError(f"File must be a .kml file. Got {file_name.suffix}")
-        
-        if not file_name.exists():
-            logger.error(f"Input file not found: {file_name}")
-            raise FileNotFoundError(f"Input file not found: {file_name}")
-        
-        # Parse KML file
-        gdf = parse_kml(file_name)
+        gdf = gpd.read_file(file_name)
+        logger.info(f"Input file '{file_name}' loaded successfully with {len(gdf)} records")
         
         # Process based on type
         logger.info(f"Processing data as type: {case_type.upper()}")
@@ -377,8 +312,9 @@ def main(args)->None:
                     map_gdf_db_unified_schema(schema_unif, table_name),
                     verbose=1
                 )
-                
+                ## return the intermediary gdf processed
                 gdf_processed = preprocessor.process()
+
                 gdf_out = preprocessor.prepare_gdf_db()
                 
             case "manejo":
@@ -399,7 +335,7 @@ def main(args)->None:
                 raise ValueError(f"Unknown type '{case_type}'. Must be 'ocorrencia' or 'manejo'")
         
         # Save processed data
-        output_file = output_dir / f"{file_name.stem}_ps.gpkg"
+        output_file = output_dir / f"{file_name.stem}.gpkg"
         logger.info(f"Saving processed data to: {output_file}")
         
         gdf_out.to_file(output_file, driver="GPKG", overwrite=overwrite)
@@ -430,7 +366,13 @@ if __name__ =='__main__':
         "--file", 
         type=str, 
         required=True,
-        help="O caminho do arquivo KML"
+        help="Path of the gpkg file to be processed"
+    )
+    parser.add_argument(
+        "--output-file-name",
+        type=str,
+        default="processed_data",
+        help="Name of the processed output file"
     )
     parser.add_argument(
         "--folder-name",
