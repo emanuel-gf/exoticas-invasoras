@@ -82,7 +82,7 @@ streamlit run app.py
     ```
 - RUN
 ```bash
-streamlit run app.py
+streamlit run app2.py
 ```
 
 ### Atualize o projeto 

@@ -114,7 +114,11 @@ def convert_csv_to_gpkg(csv_path,TEMP_CONVERTED_GPKG_PATH):
     try:
         df = pd.read_csv(csv_path)
     except Exception as e:
-        raise ValueError(f"Error reading CSV file: {e}")
+        try:
+            df = pd.read_csv(csv_path, delimiter=';') ## fix for excel outcomes!
+        except Exception as e2:
+            raise ValueError(f"Error reading CSV file: This attempt is reading as ; {e2}")
+
 
     # --- Check for required 'x' and 'y' columns ---
     if 'x' not in df.columns or 'y' not in df.columns:
