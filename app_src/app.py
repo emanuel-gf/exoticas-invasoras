@@ -7,18 +7,23 @@ from io import StringIO
 from pathlib import Path
 
 # --- Constants and Setup ---
-HOME_DIR = Path.home()
-DEFAULT_OUTPUT_BASE = HOME_DIR / "Desktop" / "output"
+# Use /app/app_src (container's working directory) as base 
+CONTAINER_APP_DIR = Path("/app/app_src/")
 
-SCHEMA_FILE = Path("config/schema.json")
-KML_READER_SCRIPT = "kml_reader.py"
-PREPROCESS_SCRIPT = "preprocess.py"
-DB_IMPORTER_SCRIPT = "db_importer.py"
-##add generate csv file from raw kml 
-GENERATE_CSV_SCRIPT = "generate_csv.py" ## create this script 
-TEMP_KML_PATH = Path("./temp_uploaded.kml")
+# For temporary/output files, use a dedicated volume mount
+OUTPUT_BASE = Path("/app/outputs")  # This should be a volume in docker-compose.yml
 
-logo_path = "imgs/icmbio_logo.webp" 
+# Create output directory 
+OUTPUT_BASE.mkdir(parents=True, exist_ok=True)
+
+SCHEMA_FILE = CONTAINER_APP_DIR / "config" / "schema.json"
+KML_READER_SCRIPT = CONTAINER_APP_DIR / "kml_reader.py"
+PREPROCESS_SCRIPT = CONTAINER_APP_DIR / "preprocess.py"
+DB_IMPORTER_SCRIPT = CONTAINER_APP_DIR / "db_importer.py"
+GENERATE_CSV_SCRIPT = CONTAINER_APP_DIR / "generate_csv.py"
+TEMP_KML_PATH = OUTPUT_BASE / "temp_uploaded.kml"
+
+logo_path = str(CONTAINER_APP_DIR / "imgs" / "icmbio_logo.webp")
 
 # Load schema.json
 @st.cache_data
@@ -40,7 +45,7 @@ if 'kml_columns' not in st.session_state:
 if 'uploaded_file_name' not in st.session_state:
     st.session_state.uploaded_file_name = None
 if 'output_path' not in st.session_state:
-    st.session_state.output_path = str(DEFAULT_OUTPUT_BASE)
+    st.session_state.output_path = str(OUTPUT_BASE)
 if 'output_folder_name' not in st.session_state:
     st.session_state.output_folder_name = "processed_data"
 if 'output_filename_base' not in st.session_state:

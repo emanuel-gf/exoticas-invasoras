@@ -1,0 +1,62 @@
+
+services:
+  # Streamlit Application
+  app:
+    # Build the Streamlit image from the Dockerfile
+    build: .
+    container_name: streamlit_postgis_app
+    # 1. BIND MOUNT (Host folder to Container folder)
+    volumes:
+      - .:/app_src ##src code
+      - ./outputs:/app/outputs ## persistent storage
+    # Map Streamlit port from container to host
+    ports:
+      - "8501:8501"
+
+    # Environment variables passed to the app container
+    # These will be read by Streamlit (e.g. via os.environ)
+    environment:
+      DB_HOST: postgres       # Service name of Postgres container
+      DB_PORT: 5432
+      DB_NAME: gis_db
+      DB_USER: gis_user
+      DB_PASS: gis_password
+
+    # Ensure Postgres starts before the app
+    depends_on:
+      - postgres
+
+    # Restart app if it crashes
+    restart: unless-stopped
+
+
+  # ============================
+  # PostgreSQL + PostGIS
+  postgres:
+    # Official PostGIS image (PostgreSQL + PostGIS extension)
+    image: postgis/postgis:16-3.4
+    container_name: postgres_postgis
+
+    # Database credentials
+    environment:
+      POSTGRES_DB: gis_db
+      POSTGRES_USER: gis_user
+      POSTGRES_PASSWORD: gis_password
+
+    # Persist database data between container restarts
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    # Expose Postgres port (optional — useful for debugging)
+    ports:
+      - "5432:5432"
+
+    # Restart automatically
+    restart: unless-stopped
+
+
+# ============================
+# Named volumes
+# ============================
+volumes:
+  postgres_data:
