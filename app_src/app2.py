@@ -7,30 +7,33 @@ import geopandas as gpd
 from io import StringIO
 from pathlib import Path
 
-## import build functions
+## import built functions
 from src.func import parse_kml, generate_csv_from_gdf, convert_csv_to_gpkg
 
-
 # --- Constants and Setup ---
-HOME_DIR = Path.home()  ## point to home directory 
-DEFAULT_OUTPUT_BASE = HOME_DIR / "Desktop" / "output"
-os.makedirs(DEFAULT_OUTPUT_BASE, exist_ok=True)
+# Use /app/app_src (container's working directory) as base 
+CONTAINER_APP_DIR = Path("/app/app_src/")
 
-SCHEMA_FILE = Path("config/schema.json")
-KML_READER_SCRIPT = "kml_reader.py"
-PREPROCESS_SCRIPT = "preprocess.py"
-DB_IMPORTER_SCRIPT = "db_importer.py"
-GENERATE_CSV_SCRIPT = "generate_csv.py"
+# For temporary/output files, use a dedicated volume mount
+OUTPUT_BASE = Path("/app/outputs")  # This should be a volume in docker-compose.yml
 
-## TEMP files
-## create a temp kml to use during the app
-DEFAULT_TEMP_DIR = DEFAULT_OUTPUT_BASE / "temp"
+# Create output directory 
+OUTPUT_BASE.mkdir(parents=True, exist_ok=True)
+
+SCHEMA_FILE = CONTAINER_APP_DIR / "config" / "schema.json"
+KML_READER_SCRIPT = CONTAINER_APP_DIR / "kml_reader.py"
+PREPROCESS_SCRIPT = CONTAINER_APP_DIR / "preprocess.py"
+DB_IMPORTER_SCRIPT = CONTAINER_APP_DIR / "db_importer.py"
+GENERATE_CSV_SCRIPT = CONTAINER_APP_DIR / "generate_csv.py"
+TEMP_KML_PATH = OUTPUT_BASE / "temp_uploaded.kml"
+
+logo_path = str(CONTAINER_APP_DIR / "imgs" / "icmbio_logo.webp")
+DEFAULT_OUTPUT_BASE = OUTPUT_BASE
+DEFAULT_TEMP_DIR = OUTPUT_BASE / "temp"
 DEFAULT_TEMP_DIR.mkdir(parents=True, exist_ok=True)
-TEMP_KML_PATH = DEFAULT_TEMP_DIR / Path("temp_uploaded.kml")
-TEMP_PREPROCESS_PATH = DEFAULT_TEMP_DIR / Path("temp_preprocess.data")
-TEMP_CONVERTED_GPKG_PATH = DEFAULT_TEMP_DIR / Path("temp_converted.gpkg")
-TEMP_GPKG_PATH_DB = DEFAULT_TEMP_DIR / Path("temp_uploaded.gpkg")
-logo_path = "imgs/icmbio_logo.webp"
+TEMP_PREPROCESS_PATH = DEFAULT_TEMP_DIR / "temp_preprocess.gpkg"
+TEMP_CONVERTED_GPKG_PATH = DEFAULT_TEMP_DIR / "temp_converted.gpkg"
+
 
 # Load schema.json
 @st.cache_data
