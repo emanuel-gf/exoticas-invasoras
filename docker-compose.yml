@@ -24,7 +24,8 @@ services:
 
     # Ensure Postgres starts before the app
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
     # Restart app if it crashes
     restart: unless-stopped
@@ -42,7 +43,12 @@ services:
       POSTGRES_DB: gis_db
       POSTGRES_USER: gis_user
       POSTGRES_PASSWORD: gis_password
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gis_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      
     # Persist database data between container restarts
     volumes:
       - postgres_data:/var/lib/postgresql/data
